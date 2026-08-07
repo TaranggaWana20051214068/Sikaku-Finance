@@ -774,7 +774,7 @@
           <h4 class="font-semibold text-sm text-base-primary flex items-center gap-2">
             <i class="fa-solid fa-upload text-blue-500"></i> Import / Pulihkan Data
           </h4>
-          <input type="file" id="import-file-input" accept="application/json,text/csv,text/plain,.json,.csv,.txt" class="hidden">
+          <!-- input file dipindah ke luar modal, lihat di bawah body -->
           <button id="btn-trigger-import" class="w-full py-3 rounded-xl border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:bg-blue-50 dark:hover:bg-blue-500/5 transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-folder-open"></i> Pilih File Backup (JSON / CSV)
           </button>
@@ -872,6 +872,12 @@
       </div>
     </div>
   </div>
+
+  <!-- File input di luar semua modal agar browser HP tidak memblokir programmatic click -->
+  <input type="file" id="import-file-input"
+    accept="application/json,text/csv,text/plain,.json,.csv"
+    class="hidden"
+    style="position:fixed;top:-999px;left:-999px;opacity:0;pointer-events:none;">
 
   <!-- ==================== CUSTOM CONFIRM DIALOG ==================== -->
   <div id="custom-confirm-overlay">

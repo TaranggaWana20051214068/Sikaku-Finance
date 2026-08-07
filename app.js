@@ -520,7 +520,14 @@ function setupEventListeners() {
   document.getElementById('btn-close-backup-modal')?.addEventListener('click', () => closeModal('modal-backup'));
   document.getElementById('btn-export-json')?.addEventListener('click', exportJSON);
   document.getElementById('btn-export-csv')?.addEventListener('click', exportCSV);
-  document.getElementById('btn-trigger-import')?.addEventListener('click', () => document.getElementById('import-file-input').click());
+  document.getElementById('btn-trigger-import')?.addEventListener('click', () => {
+    // setTimeout 0 memastikan .click() jalan di luar call-stack event handler
+    // agar tidak diblokir browser HP sebagai "non-user-gesture"
+    setTimeout(() => {
+      const inp = document.getElementById('import-file-input');
+      if (inp) inp.click();
+    }, 0);
+  });
   document.getElementById('import-file-input')?.addEventListener('change', handleImport);
   document.getElementById('btn-clear-all-data')?.addEventListener('click', clearAllData);
 
