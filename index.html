@@ -774,10 +774,11 @@
           <h4 class="font-semibold text-sm text-base-primary flex items-center gap-2">
             <i class="fa-solid fa-upload text-blue-500"></i> Import / Pulihkan Data
           </h4>
-          <!-- input file dipindah ke luar modal, lihat di bawah body -->
-          <button id="btn-trigger-import" class="w-full py-3 rounded-xl border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:bg-blue-50 dark:hover:bg-blue-500/5 transition flex items-center justify-center gap-2">
+          <!-- label langsung trigger file picker — lebih andal di HP daripada JS .click() -->
+          <label for="import-file-input" id="btn-trigger-import"
+            class="w-full py-3 rounded-xl border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:bg-blue-50 dark:hover:bg-blue-500/5 transition flex items-center justify-center gap-2 cursor-pointer">
             <i class="fa-solid fa-folder-open"></i> Pilih File Backup (JSON / CSV)
-          </button>
+          </label>
         </div>
 
         <div class="w-full border-t border-base"></div>
@@ -873,11 +874,11 @@
     </div>
   </div>
 
-  <!-- File input di luar semua modal agar browser HP tidak memblokir programmatic click -->
+  <!-- File input: accept sengaja dikosongkan agar Android tidak memblokir file JSON -->
+  <!-- Validasi format dilakukan oleh JS di handleImport() -->
   <input type="file" id="import-file-input"
-    accept="application/json,text/csv,text/plain,.json,.csv"
     class="hidden"
-    style="position:fixed;top:-999px;left:-999px;opacity:0;pointer-events:none;">
+    style="position:fixed;top:-999px;left:-999px;width:1px;height:1px;opacity:0;">
 
   <!-- ==================== CUSTOM CONFIRM DIALOG ==================== -->
   <div id="custom-confirm-overlay">
