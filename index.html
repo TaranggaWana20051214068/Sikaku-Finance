@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="id" class="h-full">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Sikaku Finance - Budget Plan & Spending Tracker</title>
-  <meta name="description" content="Aplikasi pencatatan keuangan pribadi dan alokasi budget berbasis client-side dengan ekspor laporan WhatsApp, CSV, dan JSON.">
+  <meta name="description"
+    content="Aplikasi pencatatan keuangan pribadi dan alokasi budget berbasis client-side dengan ekspor laporan WhatsApp, CSV, dan JSON.">
   <meta name="theme-color" content="#ffffff" id="meta-theme-color">
 
   <!-- PWA Manifest -->
@@ -27,7 +29,9 @@
   <!-- Google Fonts: Lexend Deca & Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
 
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -53,10 +57,20 @@
 
   <style>
     /* ===== Custom Scrollbar ===== */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(148,163,184,0.4); border-radius: 9999px; }
-    
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.4);
+      border-radius: 9999px;
+    }
+
     /* ===== Light Mode Tokens ===== */
     :root {
       --bg-base: #f1f5f9;
@@ -67,24 +81,25 @@
       --text-secondary: #475569;
       --text-muted: #94a3b8;
       --input-bg: #f8fafc;
-      --header-bg: rgba(255,255,255,0.92);
-      --header-border: rgba(226,232,240,0.9);
-      --shadow: 0 1px 3px 0 rgba(0,0,0,0.08), 0 1px 2px 0 rgba(0,0,0,0.04);
-      --shadow-card: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -1px rgba(0,0,0,0.04);
+      --header-bg: rgba(255, 255, 255, 0.92);
+      --header-border: rgba(226, 232, 240, 0.9);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
     }
+
     .dark {
       --bg-base: #0f172a;
       --bg-card: #1e293b;
       --bg-card-inner: #0f172a;
-      --border: rgba(255,255,255,0.08);
+      --border: rgba(255, 255, 255, 0.08);
       --text-primary: #f1f5f9;
       --text-secondary: #94a3b8;
       --text-muted: #64748b;
       --input-bg: #0f172a;
-      --header-bg: rgba(15,23,42,0.92);
-      --header-border: rgba(255,255,255,0.06);
-      --shadow: 0 1px 3px 0 rgba(0,0,0,0.3);
-      --shadow-card: 0 4px 6px -1px rgba(0,0,0,0.4);
+      --header-bg: rgba(15, 23, 42, 0.92);
+      --header-border: rgba(255, 255, 255, 0.06);
+      --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.3);
+      --shadow-card: 0 4px 6px -1px rgba(0, 0, 0, 0.4);
     }
 
     body {
@@ -92,6 +107,7 @@
       color: var(--text-primary);
       transition: background-color 0.25s ease, color 0.25s ease;
     }
+
     .card {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -99,62 +115,126 @@
       border-radius: 16px;
       transition: background-color 0.25s ease, border-color 0.25s ease;
     }
+
     .card-inner {
       background: var(--bg-card-inner);
       border: 1px solid var(--border);
       border-radius: 10px;
     }
+
     .header-bar {
       background: var(--header-bg);
       border-bottom: 1px solid var(--header-border);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
     }
+
     .input-field {
       background: var(--input-bg);
       border: 1.5px solid var(--border);
       color: var(--text-primary);
       transition: border-color 0.2s ease;
     }
-    .input-field:focus { outline: none; border-color: #10b981; }
-    .text-base-primary { color: var(--text-primary); }
-    .text-base-secondary { color: var(--text-secondary); }
-    .text-base-muted { color: var(--text-muted); }
-    .border-base { border-color: var(--border); }
+
+    .input-field:focus {
+      outline: none;
+      border-color: #10b981;
+    }
+
+    .text-base-primary {
+      color: var(--text-primary);
+    }
+
+    .text-base-secondary {
+      color: var(--text-secondary);
+    }
+
+    .text-base-muted {
+      color: var(--text-muted);
+    }
+
+    .border-base {
+      border-color: var(--border);
+    }
 
     /* ===== Theme Toggle Switch ===== */
-    .toggle-switch { position: relative; display: inline-block; width: 46px; height: 24px; }
-    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
     .toggle-slider {
-      position: absolute; cursor: pointer; inset: 0;
-      background: #cbd5e1; border-radius: 24px;
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background: #cbd5e1;
+      border-radius: 24px;
       transition: background 0.3s ease;
     }
+
     .toggle-slider::before {
-      content: ''; position: absolute;
-      height: 18px; width: 18px; left: 3px; bottom: 3px;
-      background: white; border-radius: 50%;
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background: white;
+      border-radius: 50%;
       transition: transform 0.3s ease;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
     }
-    input:checked + .toggle-slider { background: #0f172a; }
-    input:checked + .toggle-slider::before { transform: translateX(22px); }
-    .dark input:checked + .toggle-slider { background: #10b981; }
+
+    input:checked+.toggle-slider {
+      background: #0f172a;
+    }
+
+    input:checked+.toggle-slider::before {
+      transform: translateX(22px);
+    }
+
+    .dark input:checked+.toggle-slider {
+      background: #10b981;
+    }
 
     /* ===== Mobile Bottom Nav Padding ===== */
-    .mobile-content-pad { padding-bottom: 152px; }
-    @media (min-width: 768px) { .mobile-content-pad { padding-bottom: 24px; } }
+    /* FAB: bottom 76px + height 56px = top at 132px. Add 48px margin = 180px */
+    .mobile-content-pad {
+      padding-bottom: calc(180px + env(safe-area-inset-bottom, 0px));
+    }
+
+    @media (min-width: 768px) {
+      .mobile-content-pad {
+        padding-bottom: 24px;
+      }
+    }
 
     /* ===== Custom Confirm Dialog ===== */
     #custom-confirm-overlay {
-      position: fixed; inset: 0; z-index: 200;
-      display: none; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.45);
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.45);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       padding: 20px;
     }
-    #custom-confirm-overlay.open { display: flex; }
+
+    #custom-confirm-overlay.open {
+      display: flex;
+    }
+
     #custom-confirm-box {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -162,18 +242,30 @@
       padding: 24px 22px 20px;
       max-width: 320px;
       width: 100%;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
       animation: slideUp 0.22s ease;
     }
+
     #custom-confirm-icon {
-      width: 48px; height: 48px;
+      width: 48px;
+      height: 48px;
       border-radius: 14px;
-      display: flex; align-items: center; justify-content: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       margin: 0 auto 14px;
       font-size: 20px;
     }
-    .confirm-danger #custom-confirm-icon { background: #fee2e2; color: #dc2626; }
-    .dark .confirm-danger #custom-confirm-icon { background: rgba(239,68,68,0.15); color: #f87171; }
+
+    .confirm-danger #custom-confirm-icon {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .dark .confirm-danger #custom-confirm-icon {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+    }
 
     /* ===== Transaction Card Style (Mobile) ===== */
     .tx-card-mobile {
@@ -184,8 +276,14 @@
       gap: 12px;
       transition: background 0.15s;
     }
-    .tx-card-mobile:hover { background: var(--bg-card-inner); }
-    .tx-card-mobile:last-child { border-bottom: none; }
+
+    .tx-card-mobile:hover {
+      background: var(--bg-card-inner);
+    }
+
+    .tx-card-mobile:last-child {
+      border-bottom: none;
+    }
 
     /* ===== FAB Add Button ===== */
     .fab-btn {
@@ -193,35 +291,59 @@
       bottom: 76px;
       right: 18px;
       z-index: 40;
-      width: 56px; height: 56px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: linear-gradient(135deg, #10b981, #0d9488);
       color: white;
       font-size: 22px;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 8px 20px rgba(16,185,129,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
       transition: transform 0.2s ease, box-shadow 0.2s ease;
       border: 3px solid white;
     }
-    .dark .fab-btn { border-color: #1e293b; }
-    .fab-btn:active { transform: scale(0.93); }
-    @media (min-width: 768px) { .fab-btn { display: none; } }
+
+    .dark .fab-btn {
+      border-color: #1e293b;
+    }
+
+    .fab-btn:active {
+      transform: scale(0.93);
+    }
+
+    @media (min-width: 768px) {
+      .fab-btn {
+        display: none;
+      }
+    }
 
     /* ===== Bottom Nav Bar (Mobile Only) ===== */
     .bottom-nav {
       position: fixed;
-      bottom: 0; left: 0; right: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
       z-index: 30;
       background: var(--bg-card);
       border-top: 1px solid var(--border);
       display: flex;
       padding-bottom: env(safe-area-inset-bottom, 8px);
     }
-    @media (min-width: 768px) { .bottom-nav { display: none; } }
+
+    @media (min-width: 768px) {
+      .bottom-nav {
+        display: none;
+      }
+    }
+
     .bottom-nav-btn {
       flex: 1;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
       padding: 8px 4px 6px;
       gap: 3px;
       font-size: 10px;
@@ -230,31 +352,79 @@
       cursor: pointer;
       transition: color 0.2s;
     }
-    .bottom-nav-btn.active { color: #10b981; }
-    .bottom-nav-btn i { font-size: 18px; }
+
+    .bottom-nav-btn.active {
+      color: #10b981;
+    }
+
+    .bottom-nav-btn i {
+      font-size: 18px;
+    }
 
     /* ===== Summary Card Gradient Icons ===== */
-    .icon-box-green { background: #dcfce7; color: #16a34a; }
-    .icon-box-red { background: #fee2e2; color: #dc2626; }
-    .icon-box-blue { background: #dbeafe; color: #2563eb; }
-    .icon-box-amber { background: #fef3c7; color: #d97706; }
-    .dark .icon-box-green { background: rgba(16,185,129,0.15); color: #34d399; }
-    .dark .icon-box-red { background: rgba(239,68,68,0.15); color: #f87171; }
-    .dark .icon-box-blue { background: rgba(59,130,246,0.15); color: #60a5fa; }
-    .dark .icon-box-amber { background: rgba(245,158,11,0.15); color: #fbbf24; }
+    .icon-box-green {
+      background: #dcfce7;
+      color: #16a34a;
+    }
+
+    .icon-box-red {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .icon-box-blue {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .icon-box-amber {
+      background: #fef3c7;
+      color: #d97706;
+    }
+
+    .dark .icon-box-green {
+      background: rgba(16, 185, 129, 0.15);
+      color: #34d399;
+    }
+
+    .dark .icon-box-red {
+      background: rgba(239, 68, 68, 0.15);
+      color: #f87171;
+    }
+
+    .dark .icon-box-blue {
+      background: rgba(59, 130, 246, 0.15);
+      color: #60a5fa;
+    }
+
+    .dark .icon-box-amber {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fbbf24;
+    }
 
     /* ===== Modal Overlay ===== */
     .modal-overlay {
-      position: fixed; inset: 0; z-index: 50;
+      position: fixed;
+      inset: 0;
+      z-index: 50;
       display: none;
       align-items: flex-end;
       justify-content: center;
-      background: rgba(0,0,0,0.4);
+      background: rgba(0, 0, 0, 0.4);
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
     }
-    @media (min-width: 640px) { .modal-overlay { align-items: center; } }
-    .modal-overlay.open { display: flex; }
+
+    @media (min-width: 640px) {
+      .modal-overlay {
+        align-items: center;
+      }
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
     .modal-sheet {
       width: 100%;
       max-width: 520px;
@@ -263,41 +433,141 @@
       background: var(--bg-card);
       border-radius: 20px 20px 0 0;
       border: 1px solid var(--border);
-      box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.15);
     }
+
     @media (min-width: 640px) {
       .modal-sheet {
         border-radius: 20px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
       }
     }
+
     .modal-drag-handle {
-      width: 36px; height: 4px;
+      width: 36px;
+      height: 4px;
       background: var(--border);
       border-radius: 9999px;
       margin: 10px auto 0;
     }
-    @media (min-width: 640px) { .modal-drag-handle { display: none; } }
+
+    @media (min-width: 640px) {
+      .modal-drag-handle {
+        display: none;
+      }
+    }
 
     /* ===== Budget Progress Bar ===== */
-    .progress-track { height: 6px; background: var(--bg-base); border-radius: 999px; overflow: hidden; }
-    .progress-bar { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
+    .progress-track {
+      height: 6px;
+      background: var(--bg-base);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.6s ease;
+    }
 
     /* ===== Toast ===== */
-    #toast-container { position: fixed; bottom: 88px; left: 50%; transform: translateX(-50%); z-index: 60; display: flex; flex-direction: column; align-items: center; gap: 8px; pointer-events: none; }
-    @media (min-width: 768px) { #toast-container { bottom: 20px; right: 20px; left: auto; transform: none; align-items: flex-end; } }
-    .toast-item { padding: 10px 16px; border-radius: 12px; font-size: 13px; font-weight: 500; display: flex; align-items: center; gap: 8px; opacity: 0; transform: translateY(10px); transition: all 0.25s ease; box-shadow: 0 4px 16px rgba(0,0,0,0.15); pointer-events: auto; white-space: nowrap; }
-    .toast-item.show { opacity: 1; transform: translateY(0); }
-    .toast-success { background: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; }
-    .dark .toast-success { background: #064e3b; color: #a7f3d0; border-color: #065f46; }
-    .toast-error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
-    .dark .toast-error { background: #7f1d1d; color: #fca5a5; border-color: #991b1b; }
-    .toast-warning { background: #fffbeb; color: #92400e; border: 1px solid #fde68a; }
-    .dark .toast-warning { background: #78350f; color: #fde68a; border-color: #92400e; }
+    #toast-container {
+      position: fixed;
+      bottom: 88px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    @media (min-width: 768px) {
+      #toast-container {
+        bottom: 20px;
+        right: 20px;
+        left: auto;
+        transform: none;
+        align-items: flex-end;
+      }
+    }
+
+    .toast-item {
+      padding: 10px 16px;
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+      pointer-events: auto;
+      white-space: nowrap;
+    }
+
+    .toast-item.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .toast-success {
+      background: #ecfdf5;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+
+    .dark .toast-success {
+      background: #064e3b;
+      color: #a7f3d0;
+      border-color: #065f46;
+    }
+
+    .toast-error {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+
+    .dark .toast-error {
+      background: #7f1d1d;
+      color: #fca5a5;
+      border-color: #991b1b;
+    }
+
+    .toast-warning {
+      background: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+
+    .dark .toast-warning {
+      background: #78350f;
+      color: #fde68a;
+      border-color: #92400e;
+    }
 
     /* ===== Animate In ===== */
-    @keyframes slideUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    .animate-slide-up { animation: slideUp 0.3s ease forwards; }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-slide-up {
+      animation: slideUp 0.3s ease forwards;
+    }
 
     /* ===== Section Header divider ===== */
     .section-label {
@@ -321,28 +591,33 @@
 
         <!-- Logo -->
         <div class="flex items-center gap-2.5 flex-1 min-w-0">
-          <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-md shrink-0">
+          <div
+            class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-md shrink-0">
             <i class="fa-solid fa-wallet text-white text-base"></i>
           </div>
           <div class="min-w-0">
             <div class="flex items-center gap-1.5">
               <span class="font-heading font-bold text-base sm:text-lg text-base-primary truncate">Sikaku</span>
-              <span class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 shrink-0">Finance</span>
+              <span
+                class="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/20 shrink-0">Finance</span>
             </div>
           </div>
         </div>
 
         <!-- Desktop Action Buttons -->
         <div class="hidden md:flex items-center gap-2">
-          <button id="btn-open-wa-modal-hdr" class="px-3 py-2 text-xs font-semibold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition flex items-center gap-1.5">
+          <button id="btn-open-wa-modal-hdr"
+            class="px-3 py-2 text-xs font-semibold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/20 transition flex items-center gap-1.5">
             <i class="fa-brands fa-whatsapp text-base"></i>
             Laporan WA
           </button>
-          <button id="btn-open-backup-modal-hdr" class="px-3 py-2 text-xs font-semibold rounded-xl text-base-secondary border border-base hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-1.5">
+          <button id="btn-open-backup-modal-hdr"
+            class="px-3 py-2 text-xs font-semibold rounded-xl text-base-secondary border border-base hover:bg-gray-50 dark:hover:bg-slate-800 transition flex items-center gap-1.5">
             <i class="fa-solid fa-database text-xs"></i>
             Backup & Restore
           </button>
-          <button id="btn-open-add-modal-hdr" class="px-4 py-2 text-xs font-bold rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-90 shadow-md shadow-emerald-500/20 transition flex items-center gap-1.5">
+          <button id="btn-open-add-modal-hdr"
+            class="px-4 py-2 text-xs font-bold rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white hover:opacity-90 shadow-md shadow-emerald-500/20 transition flex items-center gap-1.5">
             <i class="fa-solid fa-plus font-bold"></i>
             Tambah Transaksi
           </button>
@@ -366,54 +641,121 @@
   <main class="max-w-5xl mx-auto px-3 sm:px-6 py-4 sm:py-6 space-y-4 mobile-content-pad">
 
     <!-- ===== SUMMARY CARDS ===== -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
 
+    <!-- Mobile: single card, 4 rows -->
+    <div class="card sm:hidden px-4 py-2 divide-y" style="border-color: var(--border)">
+      <!-- Pemasukan -->
+      <div class="flex items-center justify-between py-2.5 gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="icon-box-green w-8 h-8 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-arrow-trend-up text-xs"></i>
+          </div>
+          <div>
+            <p class="text-[11px] text-base-muted font-medium">Pemasukan</p>
+            <p class="text-[10px] text-base-muted"><span id="stat-income-count"
+                class="font-semibold text-base-secondary">0</span> transaksi</p>
+          </div>
+        </div>
+        <p id="stat-total-income"
+          class="text-sm font-bold font-heading text-emerald-600 dark:text-emerald-400 shrink-0">Rp 0</p>
+      </div>
+      <!-- Pengeluaran -->
+      <div class="flex items-center justify-between py-2.5 gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="icon-box-red w-8 h-8 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-arrow-trend-down text-xs"></i>
+          </div>
+          <div>
+            <p class="text-[11px] text-base-muted font-medium">Pengeluaran</p>
+            <p class="text-[10px] text-base-muted"><span id="stat-expense-count"
+                class="font-semibold text-base-secondary">0</span> transaksi</p>
+          </div>
+        </div>
+        <p id="stat-total-expense" class="text-sm font-bold font-heading text-rose-600 dark:text-rose-400 shrink-0">Rp 0
+        </p>
+      </div>
+      <!-- Sisa Saldo -->
+      <div class="flex items-center justify-between py-2.5 gap-3">
+        <div class="flex items-center gap-2.5">
+          <div id="stat-balance-icon-box"
+            class="icon-box-blue w-8 h-8 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-scale-balanced text-xs"></i>
+          </div>
+          <div>
+            <p class="text-[11px] text-base-muted font-medium">Sisa Saldo</p>
+            <span id="stat-balance-status"
+              class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">Surplus</span>
+          </div>
+        </div>
+        <p id="stat-net-balance" class="text-sm font-bold font-heading text-blue-600 dark:text-sky-400 shrink-0">Rp 0
+        </p>
+      </div>
+      <!-- Tabungan -->
+      <div class="flex items-center justify-between py-2.5 gap-3">
+        <div class="flex items-center gap-2.5">
+          <div class="icon-box-amber w-8 h-8 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-piggy-bank text-xs"></i>
+          </div>
+          <div class="min-w-0 flex-1">
+            <p class="text-[11px] text-base-muted font-medium">Rasio Tabungan</p>
+            <div class="mt-1 progress-track w-full" style="max-width: 80px">
+              <div id="stat-savings-bar" class="progress-bar bg-amber-400" style="width:0%"></div>
+            </div>
+          </div>
+        </div>
+        <p id="stat-savings-rate" class="text-sm font-bold font-heading text-amber-600 dark:text-amber-400 shrink-0">0%
+        </p>
+      </div>
+    </div>
+
+    <!-- Desktop: 4 column grid -->
+    <div class="hidden sm:grid grid-cols-4 gap-3">
       <div class="card p-4">
         <div class="flex items-start justify-between gap-2">
           <div class="min-w-0">
             <p class="text-xs font-medium text-base-muted">Total Pemasukan</p>
-            <p id="stat-total-income" class="text-lg sm:text-xl font-bold font-heading text-emerald-600 dark:text-emerald-400 mt-0.5 truncate">Rp 0</p>
-            <p class="text-[11px] text-base-muted mt-1"><span id="stat-income-count" class="font-semibold text-base-secondary">0</span> transaksi</p>
+            <p class="text-xl font-bold font-heading text-emerald-600 dark:text-emerald-400 mt-0.5 truncate">Rp 0</p>
+            <p class="text-[11px] text-base-muted mt-1"><span class="font-semibold text-base-secondary">0</span>
+              transaksi</p>
           </div>
           <div class="icon-box-green w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
             <i class="fa-solid fa-arrow-trend-up text-sm"></i>
           </div>
         </div>
       </div>
-
       <div class="card p-4">
         <div class="flex items-start justify-between gap-2">
           <div class="min-w-0">
             <p class="text-xs font-medium text-base-muted">Total Pengeluaran</p>
-            <p id="stat-total-expense" class="text-lg sm:text-xl font-bold font-heading text-rose-600 dark:text-rose-400 mt-0.5 truncate">Rp 0</p>
-            <p class="text-[11px] text-base-muted mt-1"><span id="stat-expense-count" class="font-semibold text-base-secondary">0</span> transaksi</p>
+            <p class="text-xl font-bold font-heading text-rose-600 dark:text-rose-400 mt-0.5 truncate">Rp 0</p>
+            <p class="text-[11px] text-base-muted mt-1"><span class="font-semibold text-base-secondary">0</span>
+              transaksi</p>
           </div>
           <div class="icon-box-red w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
             <i class="fa-solid fa-arrow-trend-down text-sm"></i>
           </div>
         </div>
       </div>
-
       <div class="card p-4">
         <div class="flex items-start justify-between gap-2">
           <div class="min-w-0">
             <p class="text-xs font-medium text-base-muted">Sisa Saldo</p>
-            <p id="stat-net-balance" class="text-lg sm:text-xl font-bold font-heading text-blue-600 dark:text-sky-400 mt-0.5 truncate">Rp 0</p>
-            <span id="stat-balance-status" class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 mt-1">Surplus</span>
+            <p class="text-xl font-bold font-heading text-blue-600 dark:text-sky-400 mt-0.5 truncate">Rp 0</p>
+            <span
+              class="inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 mt-1">Surplus</span>
           </div>
-          <div id="stat-balance-icon-box" class="icon-box-blue w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
+          <div class="icon-box-blue w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
             <i class="fa-solid fa-scale-balanced text-sm"></i>
           </div>
         </div>
       </div>
-
       <div class="card p-4">
         <div class="flex items-start justify-between gap-2">
           <div class="min-w-0">
             <p class="text-xs font-medium text-base-muted">Rasio Tabungan</p>
-            <p id="stat-savings-rate" class="text-lg sm:text-xl font-bold font-heading text-amber-600 dark:text-amber-400 mt-0.5">0%</p>
+            <p class="text-xl font-bold font-heading text-amber-600 dark:text-amber-400 mt-0.5">0%</p>
             <div class="mt-2 progress-track w-full">
-              <div id="stat-savings-bar" class="progress-bar bg-amber-400" style="width:0%"></div>
+              <div class="progress-bar bg-amber-400" style="width:0%"></div>
             </div>
           </div>
           <div class="icon-box-amber w-9 h-9 rounded-xl flex items-center justify-center shrink-0">
@@ -421,8 +763,8 @@
           </div>
         </div>
       </div>
-
     </div>
+
 
     <!-- ===== DASHBOARD GRID (Desktop: side-by-side, Mobile: stacked) ===== -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
@@ -440,7 +782,9 @@
               </h2>
               <p class="text-[11px] text-base-muted mt-0.5">Target 50/30/20 • Blueprint Excel</p>
             </div>
-            <span class="text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-base-secondary border border-base px-2 py-1 rounded-lg">Blueprint Rules</span>
+            <span
+              class="text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-base-secondary border border-base px-2 py-1 rounded-lg">Blueprint
+              Rules</span>
           </div>
 
           <div class="space-y-3" id="budget-breakdown-container"></div>
@@ -460,39 +804,49 @@
               <i class="fa-solid fa-repeat text-indigo-500"></i>
               Biaya Admin & Langganan
             </h3>
-            <span class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-lg">Quick Add</span>
+            <span
+              class="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-500/10 px-2 py-0.5 rounded-lg">Quick
+              Add</span>
           </div>
           <p class="text-[11px] text-base-muted">Ketuk untuk tambah pengeluaran bulanan secara cepat:</p>
           <div class="grid grid-cols-2 gap-2">
-            <button data-quick-name="Rokok Sukun Kretek" data-quick-amount="12500" data-quick-category="Snacking" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="Rokok Sukun Kretek" data-quick-amount="12500" data-quick-category="Snacking"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">Rokok Sukun Kretek</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 12.500</p>
             </button>
-            <button data-quick-name="Rokok Sukun Filter 16" data-quick-amount="26000" data-quick-category="Snacking" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="Rokok Sukun Filter 16" data-quick-amount="26000" data-quick-category="Snacking"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">Rokok Sukun Filter 16</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 26.000</p>
             </button>
-            <button data-quick-name="BCA Tahapan" data-quick-amount="15000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="BCA Tahapan" data-quick-amount="15000"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">BCA Tahapan</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 15.000</p>
             </button>
-            <button data-quick-name="BCA Xpresi" data-quick-amount="10000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="BCA Xpresi" data-quick-amount="10000"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">BCA Xpresi</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 10.000</p>
             </button>
-            <button data-quick-name="Pulsa TRI" data-quick-amount="60000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="Pulsa TRI" data-quick-amount="60000"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">Pulsa TRI</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 60.000</p>
             </button>
-            <button data-quick-name="Spotify" data-quick-amount="60000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="Spotify" data-quick-amount="60000"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">Spotify</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 60.000</p>
             </button>
-            <button data-quick-name="Netflix" data-quick-amount="65000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="Netflix" data-quick-amount="65000"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">Netflix</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 65.000</p>
             </button>
-            <button data-quick-name="YT Premium" data-quick-amount="79000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+            <button data-quick-name="YT Premium" data-quick-amount="79000"
+              class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">YT Premium</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 79.000</p>
             </button>
@@ -508,7 +862,8 @@
         <div class="card p-3 sm:p-4 space-y-2.5">
           <!-- Search -->
           <div class="relative">
-            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-base-muted text-xs"></i>
+            <i
+              class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-base-muted text-xs"></i>
             <input type="text" id="filter-search" placeholder="Cari deskripsi atau kategori…"
               class="w-full input-field text-xs rounded-xl pl-9 pr-3 py-2.5 placeholder:text-base-muted">
           </div>
@@ -517,7 +872,9 @@
             <select id="filter-period" class="flex-1 input-field text-xs rounded-xl px-3 py-2 cursor-pointer">
               <option value="all">Semua Periode</option>
             </select>
-            <button id="btn-reset-filters" class="p-2 rounded-xl border border-base text-base-muted hover:text-base-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition" title="Reset Filter">
+            <button id="btn-reset-filters"
+              class="p-2 rounded-xl border border-base text-base-muted hover:text-base-primary hover:bg-slate-50 dark:hover:bg-slate-800 transition"
+              title="Reset Filter">
               <i class="fa-solid fa-rotate text-xs"></i>
             </button>
           </div>
@@ -568,7 +925,9 @@
               <i class="fa-solid fa-list-check text-blue-500"></i>
               Riwayat Transaksi
             </h2>
-            <span id="transaction-count-badge" class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-base-secondary border border-base">0 item</span>
+            <span id="transaction-count-badge"
+              class="text-[11px] font-semibold px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-base-secondary border border-base">0
+              item</span>
           </div>
 
           <!-- Transaction List (Card Layout — works on both mobile & desktop) -->
@@ -578,12 +937,15 @@
 
           <!-- Empty State -->
           <div id="empty-state" class="py-14 px-5 text-center hidden">
-            <div class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800 border border-base flex items-center justify-center text-base-muted text-2xl mb-3">
+            <div
+              class="w-16 h-16 mx-auto rounded-2xl bg-slate-100 dark:bg-slate-800 border border-base flex items-center justify-center text-base-muted text-2xl mb-3">
               <i class="fa-solid fa-inbox"></i>
             </div>
             <p class="font-semibold text-sm text-base-primary">Belum Ada Transaksi</p>
-            <p class="text-xs text-base-muted max-w-xs mx-auto mt-1">Tambahkan transaksi baru atau muat data sampel untuk memulai.</p>
-            <button id="btn-load-sample" class="mt-4 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 transition">
+            <p class="text-xs text-base-muted max-w-xs mx-auto mt-1">Tambahkan transaksi baru atau muat data sampel
+              untuk memulai.</p>
+            <button id="btn-load-sample"
+              class="mt-4 px-4 py-2 text-xs font-bold rounded-xl bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 transition">
               <i class="fa-solid fa-wand-magic-sparkles mr-1.5"></i> Muat Data Sampel
             </button>
           </div>
@@ -606,7 +968,8 @@
       <i class="fa-solid fa-house"></i>
       <span>Beranda</span>
     </button>
-    <button class="bottom-nav-btn" id="bnav-wa" onclick="bottomNavActivate('wa'); openModal('modal-wa-export'); updateWhatsAppPreview();">
+    <button class="bottom-nav-btn" id="bnav-wa"
+      onclick="bottomNavActivate('wa'); openModal('modal-wa-export'); updateWhatsAppPreview();">
       <i class="fa-brands fa-whatsapp"></i>
       <span>Laporan WA</span>
     </button>
@@ -615,7 +978,8 @@
       <i class="fa-solid fa-database"></i>
       <span>Backup</span>
     </button>
-    <button class="bottom-nav-btn" id="bnav-settings" onclick="bottomNavActivate('settings'); openModal('modal-settings');">
+    <button class="bottom-nav-btn" id="bnav-settings"
+      onclick="bottomNavActivate('settings'); openModal('modal-settings');">
       <i class="fa-solid fa-sliders"></i>
       <span>Pengaturan</span>
     </button>
@@ -632,7 +996,8 @@
           <i class="fa-solid fa-plus-circle text-emerald-500"></i>
           Tambah Transaksi
         </h3>
-        <button id="btn-close-tx-modal" class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+        <button id="btn-close-tx-modal"
+          class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
@@ -644,10 +1009,12 @@
         <div>
           <label class="block text-xs font-semibold text-base-secondary mb-2">Jenis Transaksi</label>
           <div class="grid grid-cols-2 gap-2">
-            <button type="button" id="btn-type-expense" class="py-3 rounded-xl border-2 border-rose-300 bg-rose-50 dark:border-rose-600 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold text-sm flex items-center justify-center gap-2 transition">
+            <button type="button" id="btn-type-expense"
+              class="py-3 rounded-xl border-2 border-rose-300 bg-rose-50 dark:border-rose-600 dark:bg-rose-500/10 text-rose-700 dark:text-rose-300 font-bold text-sm flex items-center justify-center gap-2 transition">
               <i class="fa-solid fa-minus-circle"></i> Pengeluaran
             </button>
-            <button type="button" id="btn-type-income" class="py-3 rounded-xl border-2 border-base bg-transparent text-base-muted font-semibold text-sm flex items-center justify-center gap-2 hover:border-emerald-300 transition">
+            <button type="button" id="btn-type-income"
+              class="py-3 rounded-xl border-2 border-base bg-transparent text-base-muted font-semibold text-sm flex items-center justify-center gap-2 hover:border-emerald-300 transition">
               <i class="fa-solid fa-plus-circle"></i> Pemasukan
             </button>
           </div>
@@ -662,26 +1029,31 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-base-secondary mb-1.5">Nominal (Rp)</label>
-            <input type="number" id="tx-amount" min="1" required placeholder="0" class="w-full input-field text-sm rounded-xl px-3 py-2.5 font-mono">
+            <input type="number" id="tx-amount" min="1" required placeholder="0"
+              class="w-full input-field text-sm rounded-xl px-3 py-2.5 font-mono">
           </div>
         </div>
 
         <!-- Category -->
         <div>
           <label class="block text-xs font-semibold text-base-secondary mb-1.5">Kategori</label>
-          <select id="tx-category" required class="w-full input-field text-sm rounded-xl px-3 py-2.5 cursor-pointer"></select>
+          <select id="tx-category" required
+            class="w-full input-field text-sm rounded-xl px-3 py-2.5 cursor-pointer"></select>
         </div>
 
         <!-- Description -->
         <div>
           <label class="block text-xs font-semibold text-base-secondary mb-1.5">Deskripsi</label>
-          <input type="text" id="tx-description" required placeholder="Contoh: Makan Siang / Gaji Bulanan" class="w-full input-field text-sm rounded-xl px-3 py-2.5">
+          <input type="text" id="tx-description" required placeholder="Contoh: Makan Siang / Gaji Bulanan"
+            class="w-full input-field text-sm rounded-xl px-3 py-2.5">
         </div>
 
         <!-- Submit -->
         <div class="flex gap-2.5 pt-1">
-          <button type="button" id="btn-cancel-tx" class="flex-1 py-3 rounded-xl border border-base font-semibold text-sm text-base-secondary hover:bg-slate-50 dark:hover:bg-slate-800 transition">Batal</button>
-          <button type="submit" class="flex-1 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm hover:opacity-90 shadow-md shadow-emerald-500/20 transition">Simpan</button>
+          <button type="button" id="btn-cancel-tx"
+            class="flex-1 py-3 rounded-xl border border-base font-semibold text-sm text-base-secondary hover:bg-slate-50 dark:hover:bg-slate-800 transition">Batal</button>
+          <button type="submit"
+            class="flex-1 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-bold text-sm hover:opacity-90 shadow-md shadow-emerald-500/20 transition">Simpan</button>
         </div>
       </form>
     </div>
@@ -696,7 +1068,8 @@
           <i class="fa-brands fa-whatsapp text-xl"></i>
           Export Laporan ke WhatsApp
         </h3>
-        <button id="btn-close-wa-modal" class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+        <button id="btn-close-wa-modal"
+          class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
@@ -706,13 +1079,16 @@
         <div>
           <label class="block text-xs font-semibold text-base-secondary mb-2">Pilih Periode Laporan:</label>
           <div class="grid grid-cols-3 gap-2">
-            <button id="wa-period-daily" class="btn-wa-period py-3 rounded-xl border-2 border-emerald-400 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-bold text-xs text-center transition">
+            <button id="wa-period-daily"
+              class="btn-wa-period py-3 rounded-xl border-2 border-emerald-400 bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-bold text-xs text-center transition">
               <i class="fa-solid fa-calendar-day block text-base mb-1"></i>Harian
             </button>
-            <button id="wa-period-weekly" class="btn-wa-period py-3 rounded-xl border-2 border-base text-base-secondary font-semibold text-xs text-center hover:border-emerald-300 transition">
+            <button id="wa-period-weekly"
+              class="btn-wa-period py-3 rounded-xl border-2 border-base text-base-secondary font-semibold text-xs text-center hover:border-emerald-300 transition">
               <i class="fa-solid fa-calendar-week block text-base mb-1"></i>Mingguan
             </button>
-            <button id="wa-period-monthly" class="btn-wa-period py-3 rounded-xl border-2 border-base text-base-secondary font-semibold text-xs text-center hover:border-emerald-300 transition">
+            <button id="wa-period-monthly"
+              class="btn-wa-period py-3 rounded-xl border-2 border-base text-base-secondary font-semibold text-xs text-center hover:border-emerald-300 transition">
               <i class="fa-solid fa-calendar-days block text-base mb-1"></i>Bulanan
             </button>
           </div>
@@ -721,15 +1097,18 @@
         <!-- Preview -->
         <div>
           <label class="block text-xs font-semibold text-base-secondary mb-1.5">Preview Pesan:</label>
-          <textarea id="wa-preview-text" readonly rows="9" class="w-full input-field text-xs rounded-xl p-3 font-mono leading-relaxed resize-none select-all"></textarea>
+          <textarea id="wa-preview-text" readonly rows="9"
+            class="w-full input-field text-xs rounded-xl p-3 font-mono leading-relaxed resize-none select-all"></textarea>
         </div>
 
         <!-- Buttons -->
         <div class="flex gap-2.5">
-          <button id="btn-copy-wa-text" class="flex-1 py-3 rounded-xl border border-base font-semibold text-sm text-base-secondary hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-2">
+          <button id="btn-copy-wa-text"
+            class="flex-1 py-3 rounded-xl border border-base font-semibold text-sm text-base-secondary hover:bg-slate-50 dark:hover:bg-slate-800 transition flex items-center justify-center gap-2">
             <i class="fa-regular fa-copy"></i> Salin
           </button>
-          <button id="btn-share-wa-direct" class="flex-1 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-md shadow-emerald-500/25 transition flex items-center justify-center gap-2">
+          <button id="btn-share-wa-direct"
+            class="flex-1 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-sm shadow-md shadow-emerald-500/25 transition flex items-center justify-center gap-2">
             <i class="fa-brands fa-whatsapp text-base"></i> Kirim WA
           </button>
         </div>
@@ -746,7 +1125,8 @@
           <i class="fa-solid fa-database text-blue-500"></i>
           Backup & Restore Data
         </h3>
-        <button id="btn-close-backup-modal" class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+        <button id="btn-close-backup-modal"
+          class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
@@ -757,13 +1137,21 @@
             <i class="fa-solid fa-download text-emerald-500"></i> Export / Unduh Backup
           </h4>
           <div class="grid grid-cols-2 gap-2.5">
-            <button id="btn-export-json" class="p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition text-left flex items-center gap-3">
+            <button id="btn-export-json"
+              class="p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition text-left flex items-center gap-3">
               <i class="fa-solid fa-file-code text-emerald-500 text-xl"></i>
-              <div><p class="font-bold text-xs text-base-primary">File JSON</p><p class="text-[10px] text-base-muted">Backup Lengkap</p></div>
+              <div>
+                <p class="font-bold text-xs text-base-primary">File JSON</p>
+                <p class="text-[10px] text-base-muted">Backup Lengkap</p>
+              </div>
             </button>
-            <button id="btn-export-csv" class="p-3 rounded-xl border border-base hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-500/5 transition text-left flex items-center gap-3">
+            <button id="btn-export-csv"
+              class="p-3 rounded-xl border border-base hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-500/5 transition text-left flex items-center gap-3">
               <i class="fa-solid fa-file-csv text-blue-500 text-xl"></i>
-              <div><p class="font-bold text-xs text-base-primary">File CSV</p><p class="text-[10px] text-base-muted">Untuk Excel / Sheets</p></div>
+              <div>
+                <p class="font-bold text-xs text-base-primary">File CSV</p>
+                <p class="text-[10px] text-base-muted">Untuk Excel / Sheets</p>
+              </div>
             </button>
           </div>
         </div>
@@ -783,7 +1171,8 @@
 
         <div class="w-full border-t border-base"></div>
 
-        <button id="btn-clear-all-data" class="w-full py-2.5 rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/5 text-rose-600 dark:text-rose-400 font-semibold text-sm hover:bg-rose-100 dark:hover:bg-rose-500/10 transition flex items-center justify-center gap-2">
+        <button id="btn-clear-all-data"
+          class="w-full py-2.5 rounded-xl border border-rose-200 dark:border-rose-500/30 bg-rose-50 dark:bg-rose-500/5 text-rose-600 dark:text-rose-400 font-semibold text-sm hover:bg-rose-100 dark:hover:bg-rose-500/10 transition flex items-center justify-center gap-2">
           <i class="fa-solid fa-trash-can"></i> Hapus Semua Data
         </button>
       </div>
@@ -799,7 +1188,8 @@
           <i class="fa-solid fa-sliders text-purple-500"></i>
           Pengaturan
         </h3>
-        <button onclick="closeModal('modal-settings')" class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+        <button onclick="closeModal('modal-settings')"
+          class="w-8 h-8 rounded-xl flex items-center justify-center text-base-muted hover:text-base-primary hover:bg-slate-100 dark:hover:bg-slate-700 transition">
           <i class="fa-solid fa-xmark text-base"></i>
         </button>
       </div>
@@ -825,8 +1215,10 @@
         <!-- Data Management -->
         <div class="space-y-2">
           <p class="section-label">Manajemen Data</p>
-          <button id="btn-load-sample-settings" class="w-full p-3.5 rounded-xl border border-base flex items-center gap-3 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 hover:border-emerald-300 transition">
-            <div class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center shrink-0">
+          <button id="btn-load-sample-settings"
+            class="w-full p-3.5 rounded-xl border border-base flex items-center gap-3 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 hover:border-emerald-300 transition">
+            <div
+              class="w-9 h-9 rounded-xl bg-emerald-50 dark:bg-emerald-500/10 flex items-center justify-center shrink-0">
               <i class="fa-solid fa-wand-magic-sparkles text-emerald-500 text-sm"></i>
             </div>
             <div class="text-left">
@@ -834,7 +1226,8 @@
               <p class="text-[11px] text-base-muted">Isi aplikasi dengan data contoh</p>
             </div>
           </button>
-          <button id="btn-clear-settings" class="w-full p-3.5 rounded-xl border border-rose-200 dark:border-rose-500/20 flex items-center gap-3 hover:bg-rose-50 dark:hover:bg-rose-500/5 transition">
+          <button id="btn-clear-settings"
+            class="w-full p-3.5 rounded-xl border border-rose-200 dark:border-rose-500/20 flex items-center gap-3 hover:bg-rose-50 dark:hover:bg-rose-500/5 transition">
             <div class="w-9 h-9 rounded-xl bg-rose-50 dark:bg-rose-500/10 flex items-center justify-center shrink-0">
               <i class="fa-solid fa-trash-can text-rose-500 text-sm"></i>
             </div>
@@ -846,7 +1239,8 @@
         </div>
 
         <!-- PWA Install Button (shows only when installable) -->
-        <button id="btn-pwa-install" onclick="window.__pwaInstall && window.__pwaInstall()" class="hidden w-full p-3.5 rounded-xl border-2 border-emerald-300 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 flex items-center gap-3 hover:bg-emerald-100 dark:hover:bg-emerald-500/15 transition">
+        <button id="btn-pwa-install" onclick="window.__pwaInstall && window.__pwaInstall()"
+          class="hidden w-full p-3.5 rounded-xl border-2 border-emerald-300 dark:border-emerald-600 bg-emerald-50 dark:bg-emerald-500/10 flex items-center gap-3 hover:bg-emerald-100 dark:hover:bg-emerald-500/15 transition">
           <div class="w-9 h-9 rounded-xl bg-emerald-500 flex items-center justify-center shrink-0">
             <i class="fa-solid fa-download text-white text-sm"></i>
           </div>
@@ -865,7 +1259,8 @@
           <p class="text-[11px] text-base-muted">Versi 1.0 · PWA Ready · Pure Client-Side · No Server</p>
           <p class="text-[11px] text-base-muted">Data tersimpan di localStorage browser Anda.</p>
           <div class="pt-2 border-t border-base mt-2 space-y-1">
-            <p class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">📱 PWA + 🌐 GitHub Pages Ready</p>
+            <p class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">📱 PWA + 🌐 GitHub Pages Ready
+            </p>
             <p class="text-[11px] text-base-muted">Bisa di-install ke home screen. Bisa dipakai offline.</p>
           </div>
         </div>
@@ -876,8 +1271,7 @@
 
   <!-- File input: accept sengaja dikosongkan agar Android tidak memblokir file JSON -->
   <!-- Validasi format dilakukan oleh JS di handleImport() -->
-  <input type="file" id="import-file-input"
-    class="hidden"
+  <input type="file" id="import-file-input" class="hidden"
     style="position:fixed;top:-999px;left:-999px;width:1px;height:1px;opacity:0;">
 
   <!-- ==================== CUSTOM CONFIRM DIALOG ==================== -->
@@ -889,8 +1283,10 @@
       <p id="custom-confirm-msg" class="text-center text-sm font-semibold text-base-primary mb-1.5">Yakin?</p>
       <p id="custom-confirm-sub" class="text-center text-xs text-base-muted mb-5"></p>
       <div class="flex gap-2">
-        <button id="custom-confirm-cancel" class="flex-1 py-2.5 rounded-xl border border-base text-sm font-semibold text-base-secondary hover:bg-slate-100 dark:hover:bg-slate-700 transition">Batal</button>
-        <button id="custom-confirm-ok" class="flex-1 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold transition">Hapus</button>
+        <button id="custom-confirm-cancel"
+          class="flex-1 py-2.5 rounded-xl border border-base text-sm font-semibold text-base-secondary hover:bg-slate-100 dark:hover:bg-slate-700 transition">Batal</button>
+        <button id="custom-confirm-ok"
+          class="flex-1 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold transition">Hapus</button>
       </div>
     </div>
   </div>
@@ -939,4 +1335,5 @@
   </script>
 
 </body>
+
 </html>

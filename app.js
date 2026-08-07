@@ -243,28 +243,38 @@ function renderApp() {
 }
 
 function renderSummaryCards(s) {
-  document.getElementById('stat-total-income').textContent = formatIDR(s.totalIncome);
-  document.getElementById('stat-total-expense').textContent = formatIDR(s.totalExpense);
-  document.getElementById('stat-income-count').textContent = s.incomeCount;
-  document.getElementById('stat-expense-count').textContent = s.expenseCount;
+  const setText = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+
+  setText('stat-total-income',  formatIDR(s.totalIncome));
+  setText('stat-total-expense', formatIDR(s.totalExpense));
+  setText('stat-income-count',  s.incomeCount);
+  setText('stat-expense-count', s.expenseCount);
+  setText('stat-savings-rate',  s.savingsRate + '%');
 
   const balEl = document.getElementById('stat-net-balance');
-  balEl.textContent = (s.netBalance < 0 ? '- ' : '') + formatIDR(s.netBalance);
-  balEl.className = s.netBalance < 0
-    ? 'text-lg sm:text-xl font-bold font-heading text-rose-600 dark:text-rose-400 mt-0.5 truncate'
-    : 'text-lg sm:text-xl font-bold font-heading text-blue-600 dark:text-sky-400 mt-0.5 truncate';
-
-  const statusEl = document.getElementById('stat-balance-status');
-  if (s.netBalance < 0) {
-    statusEl.textContent = 'Defisit';
-    statusEl.className = 'inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300 mt-1';
-  } else {
-    statusEl.textContent = 'Surplus';
-    statusEl.className = 'inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 mt-1';
+  if (balEl) {
+    balEl.textContent = (s.netBalance < 0 ? '- ' : '') + formatIDR(s.netBalance);
+    balEl.className = s.netBalance < 0
+      ? 'text-sm font-bold font-heading text-rose-600 dark:text-rose-400 shrink-0'
+      : 'text-sm font-bold font-heading text-blue-600 dark:text-sky-400 shrink-0';
   }
 
-  document.getElementById('stat-savings-rate').textContent = s.savingsRate + '%';
-  document.getElementById('stat-savings-bar').style.width = Math.min(100, s.savingsRate) + '%';
+  const statusEl = document.getElementById('stat-balance-status');
+  if (statusEl) {
+    if (s.netBalance < 0) {
+      statusEl.textContent = 'Defisit';
+      statusEl.className = 'inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-300';
+    } else {
+      statusEl.textContent = 'Surplus';
+      statusEl.className = 'inline-flex items-center px-1.5 py-0.5 rounded-md text-[9px] font-bold bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-300';
+    }
+  }
+
+  const barEl = document.getElementById('stat-savings-bar');
+  if (barEl) barEl.style.width = Math.min(100, s.savingsRate) + '%';
 }
 
 function renderTransactionList(list) {
