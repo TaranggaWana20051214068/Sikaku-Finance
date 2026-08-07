@@ -142,8 +142,38 @@
     .dark input:checked + .toggle-slider { background: #10b981; }
 
     /* ===== Mobile Bottom Nav Padding ===== */
-    .mobile-content-pad { padding-bottom: 80px; }
+    .mobile-content-pad { padding-bottom: 152px; }
     @media (min-width: 768px) { .mobile-content-pad { padding-bottom: 24px; } }
+
+    /* ===== Custom Confirm Dialog ===== */
+    #custom-confirm-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      display: none; align-items: center; justify-content: center;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      padding: 20px;
+    }
+    #custom-confirm-overlay.open { display: flex; }
+    #custom-confirm-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px 22px 20px;
+      max-width: 320px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+      animation: slideUp 0.22s ease;
+    }
+    #custom-confirm-icon {
+      width: 48px; height: 48px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 14px;
+      font-size: 20px;
+    }
+    .confirm-danger #custom-confirm-icon { background: #fee2e2; color: #dc2626; }
+    .dark .confirm-danger #custom-confirm-icon { background: rgba(239,68,68,0.15); color: #f87171; }
 
     /* ===== Transaction Card Style (Mobile) ===== */
     .tx-card-mobile {
@@ -434,6 +464,14 @@
           </div>
           <p class="text-[11px] text-base-muted">Ketuk untuk tambah pengeluaran bulanan secara cepat:</p>
           <div class="grid grid-cols-2 gap-2">
+            <button data-quick-name="Rokok Sukun Kretek" data-quick-amount="12500" data-quick-category="Snacking" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+              <p class="font-semibold text-xs text-base-primary">Rokok Sukun Kretek</p>
+              <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 12.500</p>
+            </button>
+            <button data-quick-name="Rokok Sukun Filter 16" data-quick-amount="26000" data-quick-category="Snacking" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+              <p class="font-semibold text-xs text-base-primary">Rokok Sukun Filter 16</p>
+              <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 26.000</p>
+            </button>
             <button data-quick-name="BCA Tahapan" data-quick-amount="15000" class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
               <p class="font-semibold text-xs text-base-primary">BCA Tahapan</p>
               <p class="text-[11px] text-rose-500 font-medium mt-0.5">Rp 15.000</p>
@@ -736,7 +774,7 @@
           <h4 class="font-semibold text-sm text-base-primary flex items-center gap-2">
             <i class="fa-solid fa-upload text-blue-500"></i> Import / Pulihkan Data
           </h4>
-          <input type="file" id="import-file-input" accept=".json,.csv" class="hidden">
+          <input type="file" id="import-file-input" accept="application/json,text/csv,text/plain,.json,.csv,.txt" class="hidden">
           <button id="btn-trigger-import" class="w-full py-3 rounded-xl border-2 border-dashed border-blue-300 dark:border-blue-600 text-blue-600 dark:text-blue-400 font-semibold text-sm hover:bg-blue-50 dark:hover:bg-blue-500/5 transition flex items-center justify-center gap-2">
             <i class="fa-solid fa-folder-open"></i> Pilih File Backup (JSON / CSV)
           </button>
@@ -831,6 +869,21 @@
           </div>
         </div>
 
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CUSTOM CONFIRM DIALOG ==================== -->
+  <div id="custom-confirm-overlay">
+    <div id="custom-confirm-box">
+      <div id="custom-confirm-icon">
+        <i id="custom-confirm-icon-i" class="fa-solid fa-triangle-exclamation"></i>
+      </div>
+      <p id="custom-confirm-msg" class="text-center text-sm font-semibold text-base-primary mb-1.5">Yakin?</p>
+      <p id="custom-confirm-sub" class="text-center text-xs text-base-muted mb-5"></p>
+      <div class="flex gap-2">
+        <button id="custom-confirm-cancel" class="flex-1 py-2.5 rounded-xl border border-base text-sm font-semibold text-base-secondary hover:bg-slate-100 dark:hover:bg-slate-700 transition">Batal</button>
+        <button id="custom-confirm-ok" class="flex-1 py-2.5 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-sm font-bold transition">Hapus</button>
       </div>
     </div>
   </div>

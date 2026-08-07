@@ -4,8 +4,8 @@
  * and Network-First for dynamic content.
  */
 
-const CACHE_NAME = 'sikaku-v1.0';
-const CACHE_VERSION = 1;
+const CACHE_NAME = 'sikaku-v1.1';
+const CACHE_VERSION = 2;
 
 // App Shell: all static assets to cache on install
 const APP_SHELL = [

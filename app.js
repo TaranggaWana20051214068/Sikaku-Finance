@@ -162,6 +162,38 @@ function showToast(msg, type = 'success') {
   }, 3500);
 }
 
+// ==================== CUSTOM CONFIRM ====================
+function showConfirm({ msg, sub, okLabel = 'Hapus', onConfirm }) {
+  const overlay = document.getElementById('custom-confirm-overlay');
+  const box     = document.getElementById('custom-confirm-box');
+  const msgEl   = document.getElementById('custom-confirm-msg');
+  const subEl   = document.getElementById('custom-confirm-sub');
+  const okBtn   = document.getElementById('custom-confirm-ok');
+  const cancelBtn = document.getElementById('custom-confirm-cancel');
+
+  msgEl.textContent  = msg  || 'Yakin?';
+  subEl.textContent  = sub  || '';
+  okBtn.textContent  = okLabel;
+  box.className      = 'confirm-danger';
+  overlay.classList.add('open');
+
+  const close = () => overlay.classList.remove('open');
+
+  const handleOk = () => { close(); onConfirm && onConfirm(); cleanup(); };
+  const handleCancel = () => { close(); cleanup(); };
+  const handleOverlay = (e) => { if (e.target === overlay) { close(); cleanup(); } };
+
+  function cleanup() {
+    okBtn.removeEventListener('click', handleOk);
+    cancelBtn.removeEventListener('click', handleCancel);
+    overlay.removeEventListener('click', handleOverlay);
+  }
+
+  okBtn.addEventListener('click', handleOk);
+  cancelBtn.addEventListener('click', handleCancel);
+  overlay.addEventListener('click', handleOverlay);
+}
+
 // ==================== FILTER & CALC ====================
 function getFilteredTransactions() {
   const search   = document.getElementById('filter-search')?.value.toLowerCase().trim() || '';
@@ -495,7 +527,8 @@ function setupEventListeners() {
   // Quick Add Subscriptions
   document.querySelectorAll('.btn-quick-add').forEach(btn => {
     btn.addEventListener('click', () => {
-      addQuickTx(btn.dataset.quickName, btn.dataset.quickAmount, 'Subscriptions');
+      const category = btn.dataset.quickCategory || 'Subscriptions';
+      addQuickTx(btn.dataset.quickName, btn.dataset.quickAmount, category);
     });
   });
 
@@ -533,13 +566,19 @@ function setupEventListeners() {
   });
 
   document.getElementById('btn-clear-settings')?.addEventListener('click', () => {
-    if (!confirm('HAPUS SEMUA DATA? Tindakan ini tidak dapat dibatalkan!')) return;
-    transactions = [];
-    saveTransactions();
-    populateMonthFilter();
-    renderApp();
-    closeModal('modal-settings');
-    showToast('Semua data telah dihapus.', 'warning');
+    showConfirm({
+      msg: 'Hapus semua data?',
+      sub: 'Tindakan ini tidak dapat dibatalkan!',
+      okLabel: 'Hapus Semua',
+      onConfirm: () => {
+        transactions = [];
+        saveTransactions();
+        populateMonthFilter();
+        renderApp();
+        closeModal('modal-settings');
+        showToast('Semua data telah dihapus.', 'warning');
+      }
+    });
   });
 }
 
@@ -641,12 +680,18 @@ function editTransaction(id) {
 }
 
 function deleteTransaction(id) {
-  if (!confirm('Hapus transaksi ini?')) return;
-  transactions = transactions.filter(t => t.id !== id);
-  saveTransactions();
-  populateMonthFilter();
-  renderApp();
-  showToast('Transaksi dihapus.', 'warning');
+  showConfirm({
+    msg: 'Hapus transaksi ini?',
+    sub: 'Data transaksi akan dihapus permanen.',
+    okLabel: 'Hapus',
+    onConfirm: () => {
+      transactions = transactions.filter(t => t.id !== id);
+      saveTransactions();
+      populateMonthFilter();
+      renderApp();
+      showToast('Transaksi dihapus.', 'warning');
+    }
+  });
 }
 
 function addQuickTx(name, amount, category) {
@@ -661,10 +706,16 @@ function addQuickTx(name, amount, category) {
 // ==================== BACKUP & RESTORE ====================
 function exportJSON() {
   if (!transactions.length) { showToast('Tidak ada data untuk diekspor.', 'error'); return; }
+  const jsonStr = JSON.stringify(transactions, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(transactions, null, 2));
+  a.href = url;
   a.download = `Sikaku_Backup_${getTodayString()}.json`;
-  document.body.appendChild(a); a.click(); a.remove();
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
   showToast('File JSON berhasil diunduh!');
 }
 
@@ -672,11 +723,16 @@ function exportCSV() {
   if (!transactions.length) { showToast('Tidak ada data untuk diekspor.', 'error'); return; }
   const headers = ['ID','Tanggal','Jenis','Kategori','Deskripsi','Nominal'];
   const rows = transactions.map(t => [t.id, t.date, t.type, `"${(t.category||'').replace(/"/g,'""')}"`, `"${(t.description||'').replace(/"/g,'""')}"`, t.amount]);
-  const csv = [headers, ...rows].map(r => r.join(',')).join('\n');
+  const csv = '\uFEFF' + [headers, ...rows].map(r => r.join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = 'data:text/csv;charset=utf-8,\uFEFF' + encodeURIComponent(csv);
+  a.href = url;
   a.download = `Sikaku_Report_${getTodayString()}.csv`;
-  document.body.appendChild(a); a.click(); a.remove();
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
   showToast('File CSV berhasil diunduh!');
 }
 
@@ -686,49 +742,84 @@ function handleImport(e) {
   const reader = new FileReader();
   reader.onload = function(ev) {
     const content = ev.target.result;
+    let success = false;
+
+    // Try parsing content as JSON first regardless of extension quirks on mobile
     try {
-      if (file.name.endsWith('.json')) {
-        const data = JSON.parse(content);
-        if (Array.isArray(data) && data.length > 0) {
+      const data = JSON.parse(content);
+      if (Array.isArray(data)) {
+        if (data.length > 0) {
           transactions = data;
           saveTransactions();
           populateMonthFilter();
           renderApp();
           closeModal('modal-backup');
-          showToast(`${data.length} transaksi berhasil diimport!`);
-        } else { showToast('Format JSON tidak valid.', 'error'); }
-      } else if (file.name.endsWith('.csv')) {
-        const lines = content.split(/\r?\n/).filter(l => l.trim());
-        if (lines.length <= 1) { showToast('File CSV kosong.', 'error'); return; }
-        const clean = s => (s || '').replace(/^"|"$/g,'').trim();
-        const imported = lines.slice(1).map((line, i) => {
-          const cols = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
-          if (cols.length < 6) return null;
-          return { id: clean(cols[0]) || genId(), date: clean(cols[1]), type: clean(cols[2]), category: clean(cols[3]), description: clean(cols[4]), amount: Number(clean(cols[5])) || 0 };
-        }).filter(Boolean);
-        if (imported.length > 0) {
-          transactions = imported;
-          saveTransactions();
-          populateMonthFilter();
-          renderApp();
-          closeModal('modal-backup');
-          showToast(`${imported.length} transaksi berhasil diimport dari CSV!`);
-        } else { showToast('Tidak ada data valid di CSV.', 'error'); }
+          showToast(`${data.length} transaksi berhasil dipulihkan!`);
+          success = true;
+        } else {
+          showToast('File JSON kosong.', 'warning');
+          success = true;
+        }
       }
-    } catch (err) { showToast('Gagal membaca file. Pastikan format sesuai.', 'error'); }
+    } catch (jsonErr) {
+      // Not JSON or parsing failed, fallback to CSV
+    }
+
+    if (!success) {
+      try {
+        const lines = content.split(/\r?\n/).filter(l => l.trim());
+        if (lines.length > 1) {
+          const clean = s => (s || '').replace(/^"|"$/g,'').trim();
+          const imported = lines.slice(1).map((line) => {
+            const cols = line.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g) || [];
+            if (cols.length < 6) return null;
+            return {
+              id: clean(cols[0]) || genId(),
+              date: clean(cols[1]),
+              type: clean(cols[2]),
+              category: clean(cols[3]),
+              description: clean(cols[4]),
+              amount: Number(clean(cols[5])) || 0
+            };
+          }).filter(Boolean);
+
+          if (imported.length > 0) {
+            transactions = imported;
+            saveTransactions();
+            populateMonthFilter();
+            renderApp();
+            closeModal('modal-backup');
+            showToast(`${imported.length} transaksi berhasil dipulihkan dari CSV!`);
+            success = true;
+          }
+        }
+      } catch (csvErr) {
+        console.error(csvErr);
+      }
+    }
+
+    if (!success) {
+      showToast('Gagal membaca file. Pastikan format JSON/CSV sesuai.', 'error');
+    }
   };
   reader.readAsText(file);
   e.target.value = '';
 }
 
 function clearAllData() {
-  if (!confirm('HAPUS SEMUA DATA? Tindakan ini tidak dapat dibatalkan!')) return;
-  transactions = [];
-  saveTransactions();
-  populateMonthFilter();
-  renderApp();
-  closeModal('modal-backup');
-  showToast('Semua data telah dihapus.', 'warning');
+  showConfirm({
+    msg: 'Hapus semua data?',
+    sub: 'Tindakan ini tidak dapat dibatalkan!',
+    okLabel: 'Hapus Semua',
+    onConfirm: () => {
+      transactions = [];
+      saveTransactions();
+      populateMonthFilter();
+      renderApp();
+      closeModal('modal-backup');
+      showToast('Semua data telah dihapus.', 'warning');
+    }
+  });
 }
 
 // ==================== WHATSAPP REPORT ====================
