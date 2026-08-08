@@ -7,6 +7,18 @@
 // ==================== STATE ====================
 const STORAGE_KEY = 'sikaku_transactions_v1';
 const THEME_KEY = 'sikaku_theme';
+const QUICK_ITEMS_KEY = 'sikaku_quick_items_v1';
+
+const DEFAULT_QUICK_ITEMS = [
+  { id: 'qi1', name: 'Rokok Sukun Kretek',  amount: 12500, category: 'Snacking' },
+  { id: 'qi2', name: 'Rokok Sukun Filter 16', amount: 26000, category: 'Snacking' },
+  { id: 'qi3', name: 'BCA Tahapan',         amount: 15000, category: 'Subscriptions' },
+  { id: 'qi4', name: 'BCA Xpresi',          amount: 10000, category: 'Subscriptions' },
+  { id: 'qi5', name: 'Pulsa TRI',           amount: 60000, category: 'Subscriptions' },
+  { id: 'qi6', name: 'Spotify',             amount: 60000, category: 'Subscriptions' },
+  { id: 'qi7', name: 'Netflix',             amount: 65000, category: 'Subscriptions' },
+  { id: 'qi8', name: 'YT Premium',          amount: 79000, category: 'Subscriptions' }
+];
 
 const CATEGORIES = {
   income: [
@@ -54,6 +66,7 @@ const SAMPLE_TRANSACTIONS = [
 ];
 
 let transactions = [];
+let quickItems = [];
 let categoryChartInstance = null;
 let currentWaPeriod = 'daily';
 
@@ -61,11 +74,13 @@ let currentWaPeriod = 'daily';
 document.addEventListener('DOMContentLoaded', () => {
   initTheme();
   loadTransactions();
+  loadQuickItems();
   initDateInputs();
   populateMonthFilter();
   populateCategoryDropdown('expense');
   setupEventListeners();
   renderApp();
+  renderQuickItemsGrid();
 });
 
 // ==================== THEME ====================
@@ -114,6 +129,21 @@ function loadTransactions() {
 
 function saveTransactions() {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+}
+
+function loadQuickItems() {
+  const raw = localStorage.getItem(QUICK_ITEMS_KEY);
+  if (raw) {
+    try { quickItems = JSON.parse(raw); }
+    catch { quickItems = DEFAULT_QUICK_ITEMS.map(i => ({ ...i })); }
+  } else {
+    quickItems = DEFAULT_QUICK_ITEMS.map(i => ({ ...i }));
+    saveQuickItems();
+  }
+}
+
+function saveQuickItems() {
+  localStorage.setItem(QUICK_ITEMS_KEY, JSON.stringify(quickItems));
 }
 
 // ==================== HELPERS ====================
@@ -535,13 +565,8 @@ function setupEventListeners() {
   document.getElementById('import-file-input')?.addEventListener('change', handleImport);
   document.getElementById('btn-clear-all-data')?.addEventListener('click', clearAllData);
 
-  // Quick Add Subscriptions
-  document.querySelectorAll('.btn-quick-add').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.dataset.quickCategory || 'Subscriptions';
-      addQuickTx(btn.dataset.quickName, btn.dataset.quickAmount, category);
-    });
-  });
+  // Quick Add — event handling dilakukan via renderQuickItemsGrid() (event delegation)
+  document.getElementById('btn-edit-quick-items')?.addEventListener('click', () => openQuickEditModal());
 
   // Sample Data
   document.getElementById('btn-load-sample')?.addEventListener('click', () => {
@@ -553,7 +578,7 @@ function setupEventListeners() {
   });
 
   // Close modals on backdrop click
-  ['modal-transaction','modal-wa-export','modal-backup','modal-settings'].forEach(id => {
+  ['modal-transaction','modal-wa-export','modal-backup','modal-settings','modal-quick-edit'].forEach(id => {
     document.getElementById(id)?.addEventListener('click', e => {
       if (e.target.id === id) closeModal(id);
     });
@@ -712,6 +737,146 @@ function addQuickTx(name, amount, category) {
   populateMonthFilter();
   renderApp();
   showToast(`${name} (${formatIDR(amount)}) ditambahkan!`);
+}
+
+// ==================== QUICK ITEMS MANAGEMENT ====================
+function renderQuickItemsGrid() {
+  const container = document.getElementById('quick-items-grid');
+  if (!container) return;
+  if (!quickItems.length) {
+    container.innerHTML = `
+      <div class="col-span-2 text-center py-6 text-base-muted text-xs">
+        <i class="fa-solid fa-plus-circle text-2xl mb-2 opacity-30"></i>
+        <p>Belum ada item. Ketuk <span class="font-bold">Edit</span> untuk menambah.</p>
+      </div>`;
+    return;
+  }
+  container.innerHTML = quickItems.map(item => `
+    <button
+      onclick="addQuickTx('${item.name.replace(/'/g, "\\'")}', ${item.amount}, '${item.category}')"
+      class="btn-quick-add text-left p-3 rounded-xl border border-base hover:border-emerald-300 dark:hover:border-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-500/5 transition">
+      <p class="font-semibold text-xs text-base-primary leading-snug">${item.name}</p>
+      <p class="text-[11px] text-rose-500 font-medium mt-0.5">${formatIDR(item.amount)}</p>
+    </button>
+  `).join('');
+}
+
+function openQuickEditModal() {
+  renderQuickEditList();
+  openModal('modal-quick-edit');
+  // reset form
+  resetQuickItemForm();
+}
+
+function resetQuickItemForm() {
+  const nameEl = document.getElementById('qi-name');
+  const amtEl  = document.getElementById('qi-amount');
+  const catEl  = document.getElementById('qi-category');
+  const idEl   = document.getElementById('qi-id');
+  if (nameEl) nameEl.value = '';
+  if (amtEl)  amtEl.value  = '';
+  if (idEl)   idEl.value   = '';
+  if (catEl) {
+    // populate category options
+    catEl.innerHTML = CATEGORIES.expense.map(c =>
+      `<option value="${c.name}">${c.name}</option>`
+    ).join('');
+  }
+  const saveBtn = document.getElementById('btn-qi-save');
+  if (saveBtn) saveBtn.textContent = 'Tambah Item';
+  const cancelEditBtn = document.getElementById('btn-qi-cancel-edit');
+  if (cancelEditBtn) cancelEditBtn.classList.add('hidden');
+}
+
+function renderQuickEditList() {
+  const list = document.getElementById('qi-list');
+  if (!list) return;
+  if (!quickItems.length) {
+    list.innerHTML = `<p class="text-center text-xs text-base-muted py-4">Belum ada item. Tambahkan di bawah.</p>`;
+    return;
+  }
+  list.innerHTML = quickItems.map((item, idx) => `
+    <div class="flex items-center gap-2 p-2.5 rounded-xl border border-base bg-slate-50/50 dark:bg-slate-800/40">
+      <div class="flex-1 min-w-0">
+        <p class="text-xs font-semibold text-base-primary truncate">${item.name}</p>
+        <p class="text-[11px] text-rose-500 font-medium">${formatIDR(item.amount)} · ${item.category}</p>
+      </div>
+      <button onclick="editQuickItemForm('${item.id}')"
+        class="w-7 h-7 rounded-lg flex items-center justify-center text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-500/10 transition shrink-0"
+        title="Edit">
+        <i class="fa-solid fa-pen text-[11px]"></i>
+      </button>
+      <button onclick="deleteQuickItem('${item.id}')"
+        class="w-7 h-7 rounded-lg flex items-center justify-center text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition shrink-0"
+        title="Hapus">
+        <i class="fa-solid fa-trash-can text-[11px]"></i>
+      </button>
+    </div>
+  `).join('');
+}
+
+function editQuickItemForm(id) {
+  const item = quickItems.find(i => i.id === id);
+  if (!item) return;
+  const nameEl = document.getElementById('qi-name');
+  const amtEl  = document.getElementById('qi-amount');
+  const catEl  = document.getElementById('qi-category');
+  const idEl   = document.getElementById('qi-id');
+  if (nameEl) nameEl.value = item.name;
+  if (amtEl)  amtEl.value  = item.amount;
+  if (idEl)   idEl.value   = item.id;
+  if (catEl)  catEl.value  = item.category;
+  const saveBtn = document.getElementById('btn-qi-save');
+  if (saveBtn) saveBtn.textContent = 'Simpan Perubahan';
+  const cancelEditBtn = document.getElementById('btn-qi-cancel-edit');
+  if (cancelEditBtn) cancelEditBtn.classList.remove('hidden');
+  // scroll form ke view
+  document.getElementById('qi-form-section')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function deleteQuickItem(id) {
+  showConfirm({
+    msg: 'Hapus item ini?',
+    sub: 'Item akan dihapus dari daftar Quick Add.',
+    okLabel: 'Hapus',
+    onConfirm: () => {
+      quickItems = quickItems.filter(i => i.id !== id);
+      saveQuickItems();
+      renderQuickEditList();
+      renderQuickItemsGrid();
+      showToast('Item dihapus.', 'warning');
+    }
+  });
+}
+
+function handleQuickItemFormSubmit(e) {
+  e.preventDefault();
+  const nameEl = document.getElementById('qi-name');
+  const amtEl  = document.getElementById('qi-amount');
+  const catEl  = document.getElementById('qi-category');
+  const idEl   = document.getElementById('qi-id');
+  const name   = nameEl?.value.trim();
+  const amount = Number(amtEl?.value);
+  const cat    = catEl?.value;
+  const id     = idEl?.value;
+  if (!name || !amount || amount <= 0) {
+    showToast('Isi nama dan nominal dengan benar.', 'error');
+    return;
+  }
+  if (id) {
+    // edit existing
+    const idx = quickItems.findIndex(i => i.id === id);
+    if (idx !== -1) quickItems[idx] = { id, name, amount, category: cat };
+    showToast('Item berhasil diperbarui!');
+  } else {
+    // add new
+    quickItems.push({ id: genId(), name, amount, category: cat });
+    showToast(`"${name}" ditambahkan ke Quick Add!`);
+  }
+  saveQuickItems();
+  renderQuickEditList();
+  renderQuickItemsGrid();
+  resetQuickItemForm();
 }
 
 // ==================== BACKUP & RESTORE ====================

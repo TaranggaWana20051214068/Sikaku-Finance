@@ -4,7 +4,7 @@
  * and Network-First for dynamic content.
  */
 
-const CACHE_NAME = 'sikaku-v1.1';
+const CACHE_NAME = 'sikaku-v1.1.1';
 const CACHE_VERSION = 2;
 
 // App Shell: all static assets to cache on install
@@ -137,7 +137,7 @@ async function staleWhileRevalidate(request) {
   return cached || fetchPromise;
 }
 
-// ==================== BACKGROUND SYNC (Optional future use) ====================
+// ==================== BACKGROUND SYNC ====================
 self.addEventListener('message', event => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
     self.skipWaiting();
